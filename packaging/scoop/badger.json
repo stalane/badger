@@ -4,7 +4,7 @@
     "homepage": "https://badger.stalane.com",
     "license": "MIT",
     "url": "https://github.com/stalane/badger/releases/download/v0.1.1/Badger.Setup.0.1.1.exe",
-    "hash": "REPLACE-ME-WITH-SHA256-FROM-SHA256SUMS.TXT",
+    "hash": "f124273ef37e3facb241f803223cbe10bd5206a4d4a5a64f19a6f717bec25023",
     "installer": {
         "script": [
             "$args = '/S'",

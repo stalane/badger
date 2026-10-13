@@ -123,7 +123,7 @@ jobs:
         run: |
           TAG="${{ steps.version.outputs.version }}"
           gh release upload "$TAG" dist/*.dmg dist/*.blockmap
-          gh release download "$TAG" --pattern '*.exe' --pattern '*.blockmap' --dir ./win-assets
+          gh release download "$TAG" --pattern 'Badger.Setup.*.exe' --pattern 'Badger.Setup.*.blockmap' --dir ./win-assets
           (cd dist && shasum -a 256 *.dmg *.blockmap) > SHA256SUMS.txt
           (cd win-assets && shasum -a 256 *) >> SHA256SUMS.txt
           gh release upload "$TAG" SHA256SUMS.txt

@@ -9,7 +9,7 @@ Installers:
 - Architecture: x64
   InstallerType: nullsoft
   InstallerUrl: https://github.com/stalane/badger/releases/download/v0.1.1/Badger.Setup.0.1.1.exe
-  InstallerSha256: REPLACE-ME-WITH-SHA256-FROM-SHA256SUMS.TXT
+  InstallerSha256: f124273ef37e3facb241f803223cbe10bd5206a4d4a5a64f19a6f717bec25023
   InstallerSwitches:
     Silent: /S
     SilentWithProgress: /S
