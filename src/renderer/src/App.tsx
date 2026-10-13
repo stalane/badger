@@ -443,7 +443,8 @@ function SettingsTab({ version, theme, onToggleTheme, defaultChromePath, isRunni
   const flash = (setter: (v: string) => void, m: string) => { setter(m); setTimeout(() => setter(''), 6000) }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-in">
+    <div style={{ display: 'flex', gap: 24, alignItems: 'stretch' }} className="animate-in">
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24 }}>
       <section style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <p className="label" style={{ marginBottom: 4, fontSize: 11 }}>Appearance</p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -492,6 +493,13 @@ function SettingsTab({ version, theme, onToggleTheme, defaultChromePath, isRunni
         </div>
         {updateMsg && <p style={{ margin: 0, fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--color-muted-light)' }}>{updateMsg}</p>}
       </section>
+      </div>
+      <div className="card" style={{ width: 220, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '64px 28px', textAlign: 'center' }}>
+        <img src={badgerLogo} alt="Badger logo" draggable={false} style={{ width: 120, height: 120, borderRadius: 26, userSelect: 'none' }} />
+        <div style={{ fontSize: 23, fontWeight: 800, lineHeight: 1.55, color: 'var(--color-text)' }}>
+          Eating<br />Your<br /><span style={{ color: 'var(--color-accent)' }}>Rubbish</span>
+        </div>
+      </div>
     </div>
   )
 }
