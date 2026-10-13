@@ -582,17 +582,17 @@ const NAV: { id: Tab; label: string; icon: ReactNode }[] = [
 function Sidebar({ active, onTab }: { active: Tab; onTab: (t: Tab) => void }) {
   return (
     <nav style={{ width: 176, flexShrink: 0, background: 'var(--color-panel)', borderRight: '1px solid var(--color-border)', display: 'flex', flexDirection: 'column', padding: 8, gap: 2 }}>
-      {NAV.map(item => (
-        <button key={item.id} onClick={() => onTab(item.id)} className={`nav-item${active === item.id ? ' active' : ''}`}>
-          {item.icon}<span style={{ fontSize: 12.5 }}>{item.label}</span>
-        </button>
-      ))}
-      <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, padding: '32px 12px 24px', textAlign: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, padding: '28px 12px 96px', textAlign: 'center' }}>
         <img src={badgerLogo} alt="Badger logo" draggable={false} style={{ width: 84, height: 84, borderRadius: 18, userSelect: 'none' }} />
         <div style={{ fontSize: 15, fontWeight: 800, lineHeight: 1.6, color: 'var(--color-text)' }}>
           Eating<br />Your<br /><span style={{ color: 'var(--color-accent)' }}>Rubbish</span>
         </div>
       </div>
+      {NAV.map(item => (
+        <button key={item.id} onClick={() => onTab(item.id)} className={`nav-item${active === item.id ? ' active' : ''}`}>
+          {item.icon}<span style={{ fontSize: 12.5 }}>{item.label}</span>
+        </button>
+      ))}
     </nav>
   )
 }
