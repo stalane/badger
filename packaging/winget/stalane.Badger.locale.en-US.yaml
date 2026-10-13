@@ -1,0 +1,11 @@
+# Created on 2026-10-13T23:00:00.000Z
+PackageIdentifier: stalane.Badger
+PackageVersion: 0.1.1
+PackageLocale: en-US
+Publisher: stalane
+PackageName: Badger
+License: MIT
+ShortDescription: Clean up X/Twitter history locally — bulk-delete posts, replies, media, likes and follows.
+Moniker: badger
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0

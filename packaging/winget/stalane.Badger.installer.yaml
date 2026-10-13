@@ -1,0 +1,18 @@
+# Created on 2026-10-13T23:00:00.000Z
+PackageIdentifier: stalane.Badger
+PackageVersion: 0.1.1
+DefaultLocale: en-US
+ManifestType: installer
+ManifestVersion: 1.6.0
+
+Installers:
+- Architecture: x64
+  InstallerType: nullsoft
+  InstallerUrl: https://github.com/stalane/badger/releases/download/v0.1.1/Badger.Setup.0.1.1.exe
+  InstallerSha256: REPLACE-ME-WITH-SHA256-FROM-SHA256SUMS.TXT
+  InstallerSwitches:
+    Silent: /S
+    SilentWithProgress: /S
+    Custom: /S
+  UpgradeBehavior: install
+  ProductCode: Badger

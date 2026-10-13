@@ -1,0 +1,27 @@
+{
+    "version": "0.1.1",
+    "description": "Clean up X/Twitter history locally — bulk-delete posts, replies, media, likes and follows.",
+    "homepage": "https://badger.stalane.com",
+    "license": "MIT",
+    "url": "https://github.com/stalane/badger/releases/download/v0.1.1/Badger.Setup.0.1.1.exe",
+    "hash": "REPLACE-ME-WITH-SHA256-FROM-SHA256SUMS.TXT",
+    "installer": {
+        "script": [
+            "$args = '/S'",
+            "Start-Process \"$dir\\$fname\" -ArgumentList $args -Wait",
+            "Remove-Item \"$dir\\$fname\" | Out-Null"
+        ]
+    },
+    "uninstaller": {
+        "script": [
+            "$uninstaller = Get-ChildItem \"$env:ProgramFiles\\Badger\" -Filter 'Uninstall*.exe' -Recurse | Select-Object -First 1",
+            "if ($uninstaller) { Start-Process $uninstaller.FullName -ArgumentList '/S' -Wait }"
+        ]
+    },
+    "checkver": {
+        "github": "https://github.com/stalane/badger"
+    },
+    "autoupdate": {
+        "url": "https://github.com/stalane/badger/releases/download/v$version/Badger.Setup.$version.exe"
+    }
+}

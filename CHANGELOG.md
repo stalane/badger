@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.1
+
+### Added
+
+- Unsigned macOS DMG (ad-hoc signature) built in CI — right-click → Open to run.
+- SHA256SUMS.txt published with every release.
+- Sidebar and titlebar brand marks (badger logo + tagline).
+
+### Changed
+
+- Bumped the app version to `0.1.1`.
+- Dropped the AppX target (needs a paid Store certificate; NSIS covers Windows).
+
 ## 0.1.0
 
 ### Added

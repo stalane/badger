@@ -84,3 +84,58 @@ jobs:
             dist/*.blockmap
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-macos:
+    needs: build-windows
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Get version from package.json
+        id: version
+        run: |
+          echo "version=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Check if tag exists
+        id: check
+        run: |
+          git fetch --tags
+          if git tag -l "${{ steps.version.outputs.version }}" | grep -q .; then
+            echo "Tag already exists: ${{ steps.version.outputs.version }}"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install dependencies
+        if: steps.check.outputs.skip == 'false'
+        run: npm ci
+
+      - name: Build application
+        if: steps.check.outputs.skip == 'false'
+        run: npm run build
+
+      - name: Package macOS app (unsigned, ad-hoc signature)
+        if: steps.check.outputs.skip == 'false'
+        run: npm run dist:mac-ci
+
+      - name: Upload DMG to release + publish checksums
+        if: steps.check.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.version.outputs.version }}"
+          gh release upload "$TAG" dist/*.dmg dist/*.blockmap
+          gh release download "$TAG" --pattern '*.exe' --pattern '*.blockmap' --dir ./win-assets
+          (cd dist && shasum -a 256 *.dmg *.blockmap) > SHA256SUMS.txt
+          (cd win-assets && shasum -a 256 *) >> SHA256SUMS.txt
+          gh release upload "$TAG" SHA256SUMS.txt

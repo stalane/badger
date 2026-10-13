@@ -1,6 +1,6 @@
 {
   "name": "badger",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Clean up X/Twitter history locally with Badger.",
   "main": "./out/main/index.js",
   "author": {
@@ -27,6 +27,7 @@
     "dist": "electron-vite build && electron-builder",
     "dist:win": "electron-vite build && electron-builder --win",
     "dist:win-ci": "electron-vite build && electron-builder --win --publish never",
+    "dist:mac-ci": "electron-vite build && electron-builder --mac --publish never",
     "dist:mac": "electron-vite build && electron-builder --mac",
     "dist:linux": "electron-vite build && electron-builder --linux",
     "typecheck": "tsc --noEmit"
@@ -48,12 +49,6 @@
       "target": [
         {
           "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        },
-        {
-          "target": "appx",
           "arch": [
             "x64"
           ]
@@ -90,15 +85,7 @@
     "files": [
       "out/**/*",
       "!out/**/*.map"
-    ],
-    "appx": {
-      "applicationId": "Stalane.Badger",
-      "displayName": "Badger",
-      "identityName": "Stalane.Badger",
-      "publisher": "CN=stalane",
-      "publisherDisplayName": "stalane",
-      "backgroundColor": "#078c5e"
-    }
+    ]
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
