@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Badger — the honey badger of X cleanups. Bulk-delete posts, replies, media, highlights, likes and follows. Local only, no API, no witnesses.">
+<link rel="icon" type="image/png" href="logo.png">
+<title>Badger — eXterminate Your X History</title>
+<style>
+:root {
+  --bg: #000;
+  --card: #121a28;
+  --border: #1e2a3a;
+  --text: #e6ecf5;
+  --muted: #8aa0bd;
+  --blue: #4f9cf7;
+  --green: #2ecc8f;
+  --red: #ff5a5f;
+  --gold: #f7b32b;
+  --violet: #a78bfa;
+  --radius: 14px;
+  --glow: 0 0 24px rgba(79, 156, 247, 0.12);
+  --mono: 'DejaVu Sans Mono', 'SFMono-Regular', Consolas, monospace;
+  --sans: 'DejaVu Sans', 'Liberation Sans', sans-serif;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); margin: 0; padding: 24px; line-height: 1.6; }
+.wrap { max-width: 1280px; margin: 0 auto; }
+a { color: var(--blue); }
+header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand img { width: 52px; height: 52px; border-radius: 12px; border: 1px solid var(--border); }
+.brand h1 { margin: 0; font-size: 30px; color: #fff; }
+.brand h1 .b { color: var(--green); }
+.tagline { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+.head-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.status { font-family: var(--mono); font-size: 12px; color: var(--green); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; background: var(--card); }
+.btn { display: inline-block; text-decoration: none; border-radius: 8px; padding: 8px 16px; font-size: 14px; font-weight: 700; border: 1px solid var(--blue); }
+.btn-primary { background: rgba(79,156,247,0.15); color: #fff; }
+.btn-ghost { background: transparent; color: var(--muted); border-color: var(--border); }
+.btn-danger { background: rgba(255,90,95,0.12); color: var(--red); border-color: rgba(255,90,95,0.4); }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+.kpi { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--glow); }
+.kpi-label { text-transform: uppercase; font-size: 12px; letter-spacing: 0.6px; color: var(--muted); }
+.kpi-value { font-family: var(--mono); font-size: 28px; color: var(--text); margin-top: 4px; }
+.kpi-delta { font-family: var(--mono); font-size: 12px; margin-top: 2px; }
+.up { color: var(--green); } .down { color: var(--red); } .flat { color: var(--gold); }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--glow); display: flex; flex-direction: column; min-height: 340px; }
+.panel.full { grid-column: 1 / -1; min-height: 0; }
+.panel h2 { font-size: 16px; color: #fff; margin: 0 0 2px; }
+.panel-asof { color: var(--muted); font-size: 12px; margin-bottom: 12px; }
+.panel p { font-size: 14px; color: var(--text); margin: 8px 0; }
+.panel ul.ops { list-style: none; margin: 8px 0; padding: 0; font-size: 14px; }
+.panel ul.ops li { padding: 7px 0; border-bottom: 1px solid var(--border); }
+.panel ul.ops li:last-child { border-bottom: none; }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 8px; }
+.table-wrap { margin-top: 12px; overflow-x: auto; }
+.table-wrap table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 13px; }
+.table-wrap th, .table-wrap td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+.table-wrap th { color: var(--muted); font-weight: 600; }
+.table-wrap td { color: var(--text); }
+.steps { counter-reset: step; margin: 8px 0; padding: 0; list-style: none; }
+.steps li { counter-increment: step; padding: 8px 0 8px 44px; position: relative; font-size: 14px; border-bottom: 1px solid var(--border); }
+.steps li:last-child { border-bottom: none; }
+.steps li::before { content: counter(step); position: absolute; left: 0; top: 8px; width: 28px; height: 28px; border-radius: 8px; background: rgba(79,156,247,0.15); border: 1px solid var(--blue); color: #fff; font-family: var(--mono); font-size: 13px; display: flex; align-items: center; justify-content: center; }
+.steps code { font-family: var(--mono); font-size: 12.5px; color: var(--gold); }
+.cta-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.fine { font-size: 12px; color: var(--muted); }
+footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); font-family: var(--mono); }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .kpis { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <img src="logo.png" alt="Badger logo" width="52" height="52">
+      <div>
+        <h1><span class="b">B</span>adger</h1>
+        <p class="tagline">The Honey Badger of X Cleanups — Takes What It Wants, Deletes The Rest.</p>
+      </div>
+    </div>
+    <div class="head-right">
+      <span class="status">● BADGER IS HUNGRY</span>
+      <a class="btn btn-ghost" href="https://github.com/stalane/badger">★ Star on GitHub</a>
+      <a class="btn btn-primary" href="https://github.com/stalane/badger/releases">Get Badger</a>
+    </div>
+  </header>
+
+  <section class="kpis">
+    <div class="kpi">
+      <div class="kpi-label">Cleanup Operations</div>
+      <div class="kpi-value">6</div>
+      <div class="kpi-delta up">▲ posts, replies, media, highlights, likes, follows</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Precision Filters</div>
+      <div class="kpi-value">5</div>
+      <div class="kpi-delta flat">▲ date, keywords, reply-target, engagement, pinned</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Bytes Leave Your Machine</div>
+      <div class="kpi-value">0</div>
+      <div class="kpi-delta up">▲ no API, no cloud, no witnesses</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Price</div>
+      <div class="kpi-value">$0</div>
+      <div class="kpi-delta down">▼ your 2013 takes are still priceless, sadly</div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>What The Badger Mauls</h2>
+      <div class="panel-asof">badger · six appetites · zero mercy</div>
+      <ul class="ops">
+        <li><span class="dot" style="background:var(--red)"></span><strong>Posts &amp; Reposts</strong> — your timeline, minus the evidence. Reposts get un-reposted.</li>
+        <li><span class="dot" style="background:var(--red)"></span><strong>Replies</strong> — every "well, actually…" you ever posted, gone.</li>
+        <li><span class="dot" style="background:var(--gold)"></span><strong>Media Tab</strong> — that photo set from 2016? Never happened.</li>
+        <li><span class="dot" style="background:var(--violet)"></span><strong>Highlights</strong> — un-highlight the lowlights.</li>
+        <li><span class="dot" style="background:var(--blue)"></span><strong>Unlike All</strong> — bulk-remove likes, including the ones you deny.</li>
+        <li><span class="dot" style="background:var(--green)"></span><strong>Unfollow</strong> — mass-unfollow with follow-back support for the forgiven.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Surgical Filters, Blunt Force Optional</h2>
+      <div class="panel-asof">badger · aim before you maul</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Filter</th><th>What It Spares</th></tr>
+          <tr><td>Date Range</td><td>Only maul posts between two dates</td></tr>
+          <tr><td>Keywords</td><td>Only posts containing every listed word</td></tr>
+          <tr><td>Reply Target</td><td>Only replies at @someone or under one post</td></tr>
+          <tr><td>Engagement Ceiling</td><td>Skips bangers with too many likes/replies</td></tr>
+          <tr><td>Skip Pinned</td><td>Your pinned masterpiece survives</td></tr>
+        </table>
+      </div>
+      <p class="fine">Leave every filter blank and the badger eats the whole timeline. Your call.</p>
+    </section>
+
+    <section class="panel">
+      <h2>How The Hunt Works</h2>
+      <div class="panel-asof">badger · chrome-powered · courage included</div>
+      <ol class="steps">
+        <li><strong>Open Badger.</strong> It launches your real Chrome — no API keys, no developer portal begging.</li>
+        <li><strong>Sign in to X</strong> in the browser. A floating panel waits patiently, then verifies you like a bouncer who respects you.</li>
+        <li><strong>Pick your prey:</strong> operations, delete limit, filters. Username auto-detected via five cunning strategies.</li>
+        <li><strong>Release the badger.</strong> Watch the log as posts vanish. Every deletion is journaled to JSON in <code>Documents/badger-output</code> — an alibi in machine-readable form.</li>
+      </ol>
+    </section>
+
+    <section class="panel">
+      <h2>Private By Design, Shameless By Nature</h2>
+      <div class="panel-asof">badger · threat model: your own cringe</div>
+      <p>Everything runs on your machine. Credentials live only in the local Chrome profile. Nothing phones home — there isn't even a home to phone.</p>
+      <p>Honey badgers don't read terms of service, but you should know: bulk automation can attract rate limits. Badger naps politely for 60 seconds when X says 429.</p>
+      <p class="fine">Not affiliated with X Corp. Probably on a list there anyway.</p>
+    </section>
+
+    <section class="panel full">
+      <h2>Get The Badger</h2>
+      <div class="panel-asof">badger · free as in freedom, and also as in beer</div>
+      <p>Open source (MIT) desktop app for Windows, macOS, and Linux. Grab an installer from Releases, or build from source like a responsible adult:</p>
+      <div class="cta-row">
+        <a class="btn btn-danger" href="https://github.com/stalane/badger/releases">⬇ Download Badger</a>
+        <a class="btn btn-primary" href="https://github.com/stalane/badger">⌨ View Source</a>
+        <a class="btn btn-ghost" href="https://github.com/stalane/badger#building-from-source">🔨 Build It Yourself</a>
+      </div>
+      <p class="fine">Your X history called. It wants out. — Badger, 2026</p>
+    </section>
+  </div>
+
+  <footer>
+    <span>© 2026 stalane · MIT · badger.stalane.com</span>
+    <span><a href="https://github.com/stalane/badger">github.com/stalane/badger</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
