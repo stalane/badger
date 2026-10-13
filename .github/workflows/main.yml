@@ -60,7 +60,7 @@ jobs:
 
       - name: Package Windows app
         if: steps.check.outputs.skip == 'false'
-        run: npm run dist:win
+        run: npm run dist:win-ci
 
       - name: Create Git tag
         if: steps.check.outputs.skip == 'false'
