@@ -33,7 +33,7 @@ linux:
     - AppImage
     - snap
     - deb
-  maintainer: stalane
+  maintainer: stalane <david@stalane.com>
   category: Utility
 appImage:
   artifactName: ${name}-${version}.${ext}

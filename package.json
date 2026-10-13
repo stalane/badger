@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "description": "Clean up X/Twitter history locally with Badger.",
   "main": "./out/main/index.js",
-  "author": "stalane",
+  "author": {
+    "name": "stalane",
+    "email": "david@stalane.com"
+  },
   "license": "MIT",
   "homepage": "https://github.com/stalane/badger",
   "repository": {
