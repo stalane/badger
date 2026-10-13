@@ -10,6 +10,7 @@ import {
   CheckCircle, CircleX, Clock, UserMinus,
 } from 'lucide-react'
 import type { XFilters, XOperation, RunSummary } from '../../shared/types'
+import badgerLogo from './assets/logo.png'
 
 type Tab    = 'cleaner' | 'results' | 'settings'
 type Status = 'idle' | 'running' | 'done' | 'error'
@@ -548,6 +549,8 @@ function Titlebar({ status, theme, onToggleTheme, defaultChromePath }: {
         {starMsg && <span style={{ fontSize: 10, color: 'var(--color-accent)', marginLeft: 8, fontFamily: 'var(--font-mono)' }}>{starMsg}</span>}
       </div>
       <div className="no-drag" style={{ display: 'flex', alignItems: 'center' }}>
+        <img src={badgerLogo} alt="Badger" draggable={false} style={{ width: 26, height: 26, borderRadius: 7, marginRight: 8, userSelect: 'none' }} />
+        <span style={{ fontSize: 11, fontStyle: 'italic', color: 'var(--color-muted)', fontFamily: 'var(--font-mono)', marginRight: 10, whiteSpace: 'nowrap' }}>eating your rubbish</span>
         <button onClick={async () => { const r = await window.api.githubStar(defaultChromePath); flash(r.success ? (r.alreadyStarred ? '⭐ Already starred!' : '⭐ Starred!') : '✗ Failed') }} title="Star on GitHub" style={{ width: 36, height: 42, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-warn)' }}>
           <Star size={14} />
         </button>
